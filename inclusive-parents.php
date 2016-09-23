@@ -5,10 +5,6 @@ Description: Allow draft, private, scheduled, and password-protected pages to be
 Author: sillybean
 Version: 1.1
 Author URI: http://stephanieleary.com
-License: GPL2
-Requires at least: 3.2
-Tested up to: 4.6.1
-Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
