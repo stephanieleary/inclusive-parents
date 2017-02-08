@@ -91,7 +91,7 @@ add_filter( 'the_title', 'scl_menu_checklist_status_label', 10, 2 );
  * @return object $query
  */
 function scl_menu_screen_add_private_pages( $query ) {
-	if ( is_admin() && 'nav-menus' == get_current_screen()->base ) {
+	if ( is_admin() && ($screen = get_current_screen()) && 'nav-menus' == $screen->base ) {
 		$query->set( 'post_status', array( 'publish', 'private', 'password' ) );
 	}	
 	return $query;
