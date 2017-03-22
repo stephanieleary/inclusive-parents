@@ -72,7 +72,7 @@ function scl_menu_checklist_status_label( $title, $page_id ) {
 	if ( empty( $page_id ) )
 		return $title;
 		
-	if ( is_admin() && 'nav-menus' == get_current_screen()->base ) {	
+	if ( scl_is_on_admin_screen() ) {
 		$post_status = get_post_status( $page_id );
 		if ( $post_status !== __( 'publish' ) ) {
 			$status = get_post_status_object( $post_status );
@@ -91,10 +91,24 @@ add_filter( 'the_title', 'scl_menu_checklist_status_label', 10, 2 );
  * @return object $query
  */
 function scl_menu_screen_add_private_pages( $query ) {
-	if ( is_admin() && 'nav-menus' == get_current_screen()->base ) {
+	if ( scl_is_on_admin_screen() ) {
 		$query->set( 'post_status', array( 'publish', 'private', 'password' ) );
 	}	
 	return $query;
 }
 
 add_filter( 'pre_get_posts', 'scl_menu_screen_add_private_pages' );
+
+/**
+ * Determine whether we're on an admin screen where filtering by page status
+ * is likely to happen.
+ *
+ * @return  boolean whether we're on a relevant admin screen
+ */
+function scl_is_on_admin_screen() {
+	global $pagenow;
+	return is_admin()
+		&& ($pagenow == 'customize.php'
+			  || DOING_AJAX
+				|| (function_exists('get_current_screen') && 'nav-menus' == get_current_screen()->base));
+}
